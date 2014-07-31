@@ -252,6 +252,8 @@ function createImageBoxBody(istr) {
 	};
 	var text6=document.createTextNode('Right');
 	// Create the box/window that pops up when a user wants to upload an image:
+	var form2 = createEl('form',['name','theForm','id','theForm','action','servlet3.jsp','method','post','enctype','multipart/form-data']);
+	form2.onsubmit = function(event) {event.preventDefault();alert('submitted');uploadingStatus(istr)};
 	var div10=createEl('div',['className','imageUploadBox','id','imageBoxImageUploadBox'+istr]);
 	var div14=createEl('div',['className','imageUploadCloseBoxButton','id','imageBoxImageUploadCloseBoxButton'+istr]);
 	div14.onclick=function() {hideElement('imageBoxImageUploadBox'+istr);};
@@ -259,8 +261,10 @@ function createImageBoxBody(istr) {
 	var div11=createEl('div',['className','imageUploadBoxContents','id','imageBoxImageUploadBoxContents'+istr]);
 	var input10 = createEl('input',['type','file','className','chooseFileButton','id','imageBoxChooseFileButton'+istr,
 			'name','imageBoxChooseFileButton'+istr]);
-	var input11 = createEl('input',['type','button','className','uploadFileButton','id','imageBoxUploadFileButton'+istr,
+	var input11 = createEl('input',['type','submit','className','uploadFileButton','id','imageBoxUploadFileButton'+istr,
 			'name','imageBoxUploadFileButton'+istr,'value','Upload']);
+	var thingy = createEl('input',['type','text','value','123123123']);
+	//input11.onclick = function() {submitTheForm(istr);};
 	var br4 = document.createElement('br');
 	//input11.onclick = function(){thingiverse();};
 	var div12=createEl('div',['className','imageUploadOr','id','imageBoxImageUploadOr'+istr]);
@@ -280,7 +284,7 @@ function createImageBoxBody(istr) {
 	//Assemble the DOM branch:
 	appendNextElementsInList([div7,[img5,text1], div8,[input1,input2,input3,br1,input4,text2,br2,input5,text3,br3,input6], 
 			div9,[input7,text4,input8,text5,input9,text6], div12,[text7], div11,[input10,input11,br4,div12,input12,input13,br5,div13], 
-			div15,[div14], div10,[div15,div11], form1,[div7,div8,div9], div6,[form1,div10]]);
+			div15,[div14], div10,[div15,div11], form1,[div7,div8,div9], form2,[div10], div6,[form1,form2]]);
 
 	return div6;
 }

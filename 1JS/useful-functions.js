@@ -1,3 +1,55 @@
+function uploadingStatus(istr) {
+	var chooseFileButton = gEBI('imageBoxChooseFileButton'+istr);
+	var uploadButton = gEBI('imageBoxUploadFileButton'+istr);
+	var theForm = gEBI(theForm);
+	uploadButton.value = 'Uploading...';
+	
+	var files = chooseFileButton.files;
+	var formData = new FormData(theForm);//theForm
+	formData.append('football', 'season2');
+	for (var i = 0; i < files.length; i++) {
+		var file = files[i];
+		// Check the file type.
+		if (!file.type.match('image.*')) {
+			continue;
+		}
+
+		// Add the file to the request.
+		formData.append('imageBoxChooseFileButton'+istr, file, file.name);
+		alert('appended')
+	}
+	
+	//Set up an AJAX request:
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', 'servlet3.jsp', true);
+	//xhr.setRequestHeader("Content-type", "multipart/form-data");
+	
+	// Set up a handler for when the request finishes.
+	xhr.onload = function () {
+		if (xhr.status === 200) {
+			// File(s) uploaded.
+			uploadButton.value = 'Upload';
+			gEBI('pageName').innerHTML = xhr.responseText;
+			//success.call(null, xhr.responseText);
+		} else {
+			alert('An error occurred!');
+		}
+	};
+	
+	// Send the Data.
+	xhr.send(formData);
+}
+
+function submitTheForm(istr) {
+	gEBI('theForm').submit();
+}
+
+
+function requestAjaxBidness() {
+	
+}
+
+
 function replaceAllInstancesOf(string,str1,str2) {
 	while (string.indexOf(str1) != -1) {
 		var index = string.indexOf(str1);
@@ -237,6 +289,9 @@ function createEl(tagName,args) { //args = [attribute,value, etc...]
 				case 'tabindex':
 				case 'href':
 				case 'rel':
+				case 'action':
+				case 'method':
+				case 'enctype':
 					el.setAttribute(args[i],str);
 					break;
 				case 'className':
